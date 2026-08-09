@@ -1,0 +1,66 @@
+"""
+Custom types + root fields for AgentFlow's Hasura Actions.
+Every Action is backed by an Nhost Serverless Function (see /functions)
+running with the Hasura admin secret, so it can perform checks and
+writes that the row-level GraphQL permissions deliberately do not
+allow directly (see nhost/metadata/tables.yaml for why).
+"""
+
+type TriggerWorkflowRunOutput {
+  run_id: uuid!
+  status: String!
+}
+
+type ApproveStepOutput {
+  step_run_id: uuid!
+  status: String!
+  resumed: Boolean!
+}
+
+type CreateOrganizationOutput {
+  org_id: uuid!
+  name: String!
+}
+
+type WebhookTriggerOutput {
+  run_id: uuid!
+  status: String!
+}
+
+input TriggerWorkflowRunInput {
+  workflow_id: uuid!
+}
+
+input ApproveStepInput {
+  step_run_id: uuid!
+  approve: Boolean!
+  comment: String
+}
+
+input CreateOrganizationInput {
+  name: String!
+}
+
+extend type mutation_root {
+  """
+  Starts a workflow run manually. Requires the caller to be an
+  owner/editor in the workflow's org and the org's quota to still
+  have headroom. See functions/actions/trigger-workflow-run.ts.
+  """
+  triggerWorkflowRun(input: TriggerWorkflowRunInput!): TriggerWorkflowRunOutput!
+
+  """
+  Resolves a paused approval_gate step. Only an owner/editor in the
+  step's org may call this — checked inside the handler itself
+  because it is a mid-execution decision, not a plain row write.
+  See functions/actions/approve-step.ts.
+  """
+  approveStep(input: ApproveStepInput!): ApproveStepOutput!
+
+  """
+  Creates a new organization and makes the caller its owner. Kept as
+  an Action (rather than a direct insert permission) so org creation
+  and the first org_members row are written atomically.
+  """
+  createOrganization(input: CreateOrganizationInput!): CreateOrganizationOutput!
+}

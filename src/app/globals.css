@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+html, body {
+  background-color: #0E1015;
+  color: #E9EBF2;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(94,234,212,0.06), transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(139,135,247,0.05), transparent 45%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(94,234,212,0.25);
+}
+
+.trace-line {
+  stroke-dasharray: 4 4;
+}
+
+.scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #242938; border-radius: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+
+@keyframes flowMove {
+  from { background-position: 0 0; }
+  to { background-position: 0 -16px; }
+}
+.flow-connector {
+  background-image: repeating-linear-gradient(to bottom, #5EEAD4 0, #5EEAD4 4px, transparent 4px, transparent 8px);
+  animation: flowMove 0.45s linear infinite;
+}
+.idle-connector {
+  background-image: repeating-linear-gradient(to bottom, #242938 0, #242938 4px, transparent 4px, transparent 8px);
+}
+.done-connector {
+  background-color: #34D399;
+}

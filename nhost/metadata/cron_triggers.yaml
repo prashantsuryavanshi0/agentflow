@@ -1,0 +1,17 @@
+# Drives every workflow whose trigger type is `scheduled`. Nhost runs
+# this on the built-in cron scheduler (every minute); the handler
+# itself decides which triggers are actually due by comparing
+# workflow_triggers.next_run_at to now(), so the cron cadence here
+# can stay coarse.
+- name: agentflow_scheduled_dispatch
+  webhook: '{{NHOST_FUNCTIONS_BASE_URL}}/scheduled/cron-run'
+  schedule: '* * * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: x-agentflow-action-secret
+      value_from_env: ACTION_SECRET
+  retry_conf:
+    num_retries: 1
+    timeout_sec: 90
+    tolerance_sec: 21600
