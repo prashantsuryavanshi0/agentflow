@@ -4,7 +4,7 @@ import { startRun } from "../_lib/runExecutor";
 
 /**
  * Public inbound webhook endpoint — the "Webhook" trigger type.
- * URL shape: POST /webhook/inbound/:workflowId
+ * URL shape: POST /webhook/inbound?workflowId=<id>
  * Body: { "secret": "<per-trigger secret set when the trigger was created>" }
  *
  * No user session here (it's called by an external system), so
@@ -15,7 +15,12 @@ import { startRun } from "../_lib/runExecutor";
  */
 export default async function handler(req: Request, res: Response) {
   try {
-    const workflowId = req.params?.workflowId || req.query?.workflowId;
+    const rawWorkflowId = req.query?.workflowId;
+    const workflowId = Array.isArray(rawWorkflowId)
+      ? String(rawWorkflowId[0])
+      : rawWorkflowId
+      ? String(rawWorkflowId)
+      : req.body?.workflowId;
     const providedSecret = req.body?.secret || req.headers["x-webhook-secret"];
 
     if (!workflowId) return res.status(400).json({ message: "workflowId is required" });
