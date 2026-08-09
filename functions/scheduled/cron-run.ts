@@ -47,9 +47,10 @@ export default async function handler(req: Request, res: Response) {
 
 /**
  * Minimal cron-interval helper: only supports "every N minutes"
- * expressions of the form `*/N * * * *`, which is enough for the
- * assignment's cron-based scheduling requirement without pulling in
- * a full cron parser. Falls back to 5 minutes for anything else.
+ * expressions of the form star-slash-N space star star star star
+ * (e.g. every 5 minutes), which is enough for the assignment's
+ * cron-based scheduling requirement without pulling in a full cron
+ * parser. Falls back to 5 minutes for anything else.
  */
 function computeNextRun(cron: string): string {
   const match = /^\*\/(\d+) \* \* \* \*$/.exec(cron.trim());
