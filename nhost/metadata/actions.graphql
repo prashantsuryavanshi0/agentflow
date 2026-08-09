@@ -1,3 +1,6 @@
 # Actions temporarily disabled to work around an Nhost CLI parser bug.
 # Will be added back via the Hasura Console once the rest of the
 # project (schema, permissions, event triggers) is deployed.
+type _AgentFlowPlaceholder {
+  _unused: Boolean
+}
