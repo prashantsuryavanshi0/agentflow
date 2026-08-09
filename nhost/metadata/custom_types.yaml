@@ -11,6 +11,4 @@ custom_types:
       relationships: []
     - name: CreateOrganizationOutput
       relationships: []
-    - name: WebhookTriggerOutput
-      relationships: []
   scalars: []

@@ -20,11 +20,6 @@ type CreateOrganizationOutput {
   name: String!
 }
 
-type WebhookTriggerOutput {
-  run_id: uuid!
-  status: String!
-}
-
 input TriggerWorkflowRunInput {
   workflow_id: uuid!
 }
@@ -39,26 +34,18 @@ input CreateOrganizationInput {
   name: String!
 }
 
+# triggerWorkflowRun: starts a workflow run manually. Requires the
+# caller to be an owner/editor in the workflow's org and the org's
+# quota to still have headroom. See functions/actions/trigger-workflow-run.ts.
+#
+# approveStep: resolves a paused approval_gate step. Only an owner/editor
+# in the step's org may call this, checked inside the handler itself.
+# See functions/actions/approve-step.ts.
+#
+# createOrganization: creates a new organization and makes the caller
+# its owner, writing the org and the first org_members row atomically.
 extend type mutation_root {
-  """
-  Starts a workflow run manually. Requires the caller to be an
-  owner/editor in the workflow's org and the org's quota to still
-  have headroom. See functions/actions/trigger-workflow-run.ts.
-  """
   triggerWorkflowRun(input: TriggerWorkflowRunInput!): TriggerWorkflowRunOutput!
-
-  """
-  Resolves a paused approval_gate step. Only an owner/editor in the
-  step's org may call this — checked inside the handler itself
-  because it is a mid-execution decision, not a plain row write.
-  See functions/actions/approve-step.ts.
-  """
   approveStep(input: ApproveStepInput!): ApproveStepOutput!
-
-  """
-  Creates a new organization and makes the caller its owner. Kept as
-  an Action (rather than a direct insert permission) so org creation
-  and the first org_members row are written atomically.
-  """
   createOrganization(input: CreateOrganizationInput!): CreateOrganizationOutput!
 }
