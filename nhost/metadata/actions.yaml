@@ -34,16 +34,3 @@ actions:
       timeout: 30
     permissions:
       - role: user
-
-custom_types:
-  enums: []
-  input_objects:
-    - name: TriggerWorkflowRunInput
-    - name: ApproveStepInput
-    - name: CreateOrganizationInput
-  objects:
-    - name: TriggerWorkflowRunOutput
-    - name: ApproveStepOutput
-    - name: CreateOrganizationOutput
-    - name: WebhookTriggerOutput
-  scalars: []
