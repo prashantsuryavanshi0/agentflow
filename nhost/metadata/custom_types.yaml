@@ -1,14 +1,5 @@
 custom_types:
   enums: []
-  input_objects:
-    - name: TriggerWorkflowRunInput
-    - name: ApproveStepInput
-    - name: CreateOrganizationInput
-  objects:
-    - name: TriggerWorkflowRunOutput
-      relationships: []
-    - name: ApproveStepOutput
-      relationships: []
-    - name: CreateOrganizationOutput
-      relationships: []
+  input_objects: []
+  objects: []
   scalars: []
