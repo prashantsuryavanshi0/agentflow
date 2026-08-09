@@ -1,10 +1,8 @@
-"""
-Custom types + root fields for AgentFlow's Hasura Actions.
-Every Action is backed by an Nhost Serverless Function (see /functions)
-running with the Hasura admin secret, so it can perform checks and
-writes that the row-level GraphQL permissions deliberately do not
-allow directly (see nhost/metadata/tables.yaml for why).
-"""
+# Custom types + root fields for AgentFlow's Hasura Actions.
+# Every Action is backed by an Nhost Serverless Function (see /functions)
+# running with the Hasura admin secret, so it can perform checks and
+# writes that the row-level GraphQL permissions deliberately do not
+# allow directly (see nhost/metadata/tables.yaml for why).
 
 type TriggerWorkflowRunOutput {
   run_id: uuid!
