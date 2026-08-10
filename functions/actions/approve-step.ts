@@ -15,10 +15,7 @@ import { continueRun } from "../_lib/runExecutor";
  */
 export default async function handler(req: Request, res: Response) {
   try {
-    if (req.headers["x-agentflow-action-secret"] !== process.env.ACTION_SECRET) {
-      return res.status(401).json({ message: "unauthorized" });
-    }
-
+   
     const sessionVariables = req.body.session_variables || {};
     const userId = sessionVariables["x-hasura-user-id"];
     const { step_run_id: stepRunId, approve, comment } = req.body.input || {};
