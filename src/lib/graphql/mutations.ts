@@ -21,11 +21,10 @@ export const CREATE_WORKFLOW = gql`
 export const SAVE_WORKFLOW_STEPS = gql`
   mutation SaveWorkflowSteps(
     $workflowId: uuid!
-    $orgId: uuid!
     $deleteIds: [uuid!]!
     $steps: [workflow_steps_insert_input!]!
   ) {
-    delete_workflow_steps(where: { id: { _in: $deleteIds } }) {
+    delete_workflow_steps(where: { workflow_id: { _eq: $workflowId }, id: { _in: $deleteIds } }) {
       affected_rows
     }
     insert_workflow_steps(
